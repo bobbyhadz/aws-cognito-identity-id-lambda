@@ -12,13 +12,13 @@ export async function main(
 ): Promise<APIGatewayProxyResultV2> {
   try {
     const identityId = await getCognitoIdentityId(event.headers.authorization);
-    return JSON.stringify({body: identityId, statusCode: 200});
+    return {body: JSON.stringify({identityId}), statusCode: 200};
   } catch (error) {
-    console.log('ERROR is:', error);
+    console.log('error is: ', error);
     if (error instanceof Error) {
-      return JSON.stringify({body: error});
+      return {body: JSON.stringify({error: error.message})};
     }
-    return JSON.stringify({body: JSON.stringify(error)});
+    return {body: JSON.stringify({error: 'Something went wrong.'})};
   }
 }
 
