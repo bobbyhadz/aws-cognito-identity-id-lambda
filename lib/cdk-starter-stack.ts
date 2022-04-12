@@ -1,9 +1,9 @@
-import * as apiGateway from '@aws-cdk/aws-apigatewayv2';
-import * as apiGatewayIntegrations from '@aws-cdk/aws-apigatewayv2-integrations';
-import * as cognito from '@aws-cdk/aws-cognito';
-import * as lambda from '@aws-cdk/aws-lambda';
-import {NodejsFunction} from '@aws-cdk/aws-lambda-nodejs';
-import * as cdk from '@aws-cdk/core';
+import * as apiGateway from '@aws-cdk/aws-apigatewayv2-alpha';
+import * as apiGatewayIntegrations from '@aws-cdk/aws-apigatewayv2-integrations-alpha';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import {NodejsFunction} from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as cdk from 'aws-cdk-lib';
 import path from 'path';
 
 export class CdkStarterStack extends cdk.Stack {
@@ -94,9 +94,10 @@ export class CdkStarterStack extends cdk.Stack {
     httpApi.addRoutes({
       path: '/cognitoid',
       methods: [apiGateway.HttpMethod.GET],
-      integration: new apiGatewayIntegrations.LambdaProxyIntegration({
-        handler: cognitoIdFunction,
-      }),
+      integration: new apiGatewayIntegrations.HttpLambdaIntegration(
+        'get-cognito-id',
+        cognitoIdFunction,
+      ),
     });
 
     new cdk.CfnOutput(this, 'region', {value: cdk.Stack.of(this).region});

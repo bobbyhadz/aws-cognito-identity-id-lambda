@@ -40,12 +40,8 @@ export function getCognitoIdentityId(
 }
 
 function getCognitoIdentityIdParams(jwtToken: string) {
-  const {
-    USER_POOL_ID,
-    ACCOUNT_ID,
-    IDENTITY_POOL_ID,
-    AWS_DEFAULT_REGION,
-  } = process.env;
+  const {USER_POOL_ID, ACCOUNT_ID, IDENTITY_POOL_ID, AWS_DEFAULT_REGION} =
+    process.env;
   const loginsKey = `cognito-idp.${AWS_DEFAULT_REGION}.amazonaws.com/${USER_POOL_ID}`;
 
   return {
